@@ -1,0 +1,16 @@
+ansicolors==1.1.8
+certifi==2019.11.28
+entrypoints==0.3
+flake8==3.7.9
+future==0.18.2
+mccabe==0.6.1
+prompt-toolkit==1.0.14
+pycodestyle==2.5.0
+pyflakes==2.1.1
+Pygments==2.5.2
+PyInquirer==1.0.3
+regex==2020.1.8
+six==1.14.0
+tableprint==0.8.0
+terminaltables==3.1.0
+wcwidth==0.1.8
