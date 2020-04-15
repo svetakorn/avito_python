@@ -1,0 +1,10 @@
+certifi==2020.4.5.1
+chardet==3.0.4
+cssselect==1.1.0
+idna==2.9
+lxml==4.5.0
+parsel==1.5.2
+requests==2.23.0
+six==1.14.0
+urllib3==1.25.8
+w3lib==1.21.0
