@@ -18,3 +18,8 @@ python -m scraper crawl [options]
 &nbsp;&nbsp;&nbsp;&nbsp;Supported options:
   - ```--outfile=FILE``` or ```-o FILE```: файл, в который будут сохранены собранные данные
   - ```--format=FORMAT``` or ```-f FORMAT```: формат файла с собранными данными {csv, jl} (csv - домашняя работа)
+  
+### Аналитика
+
+Спарсенные данные в файле _rus_ultimate_players.csv-.
+В файле _some_analytics.ipynb_ находится визуализация собранного датасета.
