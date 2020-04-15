@@ -21,5 +21,5 @@ python -m scraper crawl [options]
   
 ### Аналитика
 
-Спарсенные данные в файле _rus_ultimate_players.csv-.
-В файле _some_analytics.ipynb_ находится визуализация собранного датасета.
+* Спарсенные данные в файле **_rus_ultimate_players.csv_**.
+* В файле **_some_analytics.ipynb_** находится визуализация собранного датасета.
