@@ -2,9 +2,13 @@
 
 `pip install -r requirements.txt`
 
-Теперь поехали!
+## Теперь поехали!
+
 Это решения такой домашки по тестам:
+
 https://github.com/siauPatrick/mai-python/blob/master/03-instrumenty-testirovaniya-v-python/issues.md
+
+----
 
 ### **issue-01** - файл `test_issue_01.py`
 
