@@ -1,4 +1,12 @@
-**issue-01**
+Перед запуском нужно установить все зависимости:
+
+`pip install -r requirements.txt`
+
+Теперь поехали!
+Это решения такой домашки по тестам:
+https://github.com/siauPatrick/mai-python/blob/master/03-instrumenty-testirovaniya-v-python/issues.md
+
+### **issue-01** - файл `test_issue_01.py`
 
 Команда запуска
 
@@ -42,7 +50,7 @@ Test passed.
 
 ----
 
-**issue-02**
+### **issue-02** - файл `test_issue_02.py`
 
 Команда запуска
 
@@ -60,7 +68,7 @@ test_issue_02.py ....                                                           
 
 ----
 
-**issue-03**
+### **issue-03** - файл `test_issue_03.py`
 
 Команда запуска
 
@@ -80,7 +88,7 @@ OK
 
 ----
 
-**issue-04**
+### **issue-04** - файл `test_issue_04.py`
 
 Команда запуска
 
@@ -98,7 +106,7 @@ test_issue_04.py ....xx.                                                        
 
 ----
 
-**issue-05**
+### **issue-05** - файл `test_issue_05.py`
 
 Команда запуска
 
@@ -118,5 +126,5 @@ test_issue_05.py ...                                                            
 
 `python -m pytest --cov . --cov-report html`
 
-Результат: `what_is_year_now.py` покрыт полностью тестами, кроме `main`
+Результат: `what_is_year_now.py` покрыт полностью тестами, кроме `main` (это можно посмотреть в htmlcov/index.html)
 
