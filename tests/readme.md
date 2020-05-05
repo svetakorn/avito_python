@@ -130,5 +130,5 @@ test_issue_05.py ...                                                            
 
 `python -m pytest --cov . --cov-report html`
 
-Результат: `what_is_year_now.py` покрыт полностью тестами, кроме `main` (это можно посмотреть в htmlcov/index.html)
+Результат: `what_is_year_now.py` покрыт полностью тестами, кроме `main` (это можно посмотреть в `htmlcov/index.html`)
 
