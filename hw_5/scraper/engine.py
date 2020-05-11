@@ -1,50 +1,44 @@
-import json
 import typing
 from collections import deque
 import requests
-import csv
+from scraper.pipelines import CSVPipeline, JLPipeline, MongoPipeline
 
 
-FORMAT_CSV = 'csv'
-FORMAT_JL = 'jl'
-FILENAME = 'rus_ultimate_players'
-
-
-def start(start_url: str, callback: typing.Callable, out_path: str, out_format: str):
+def start(start_url: str, callback: typing.Callable, out_path: str, out_format: str, progress_mode: str):
     start_task = (start_url, callback)
     tasks = deque([start_task])
 
-    if out_path == FILENAME:
-        out_file = open(out_path + '.' + out_format, 'w', buffering=1)
-    else:
-        out_file = open(out_path, 'w', buffering=1)
+    obj_pipeline = get_pipeline(out_path, out_format, progress_mode)
+    obj_pipeline.open_spider()
 
     try:
         while tasks:
             url, callback = tasks.popleft()
-            print(url)
             resp = requests.get(url)
 
             for result in callback(resp):
                 if isinstance(result, dict):
-                    if out_format == FORMAT_CSV:
-                        _write_csv(result, out_file)
-                    elif out_format == FORMAT_JL:
-                        _write_jl(result, out_file)
+                    obj_pipeline.process_item(result)
+                    print_progress(out_path, progress_mode, tasks)
                 else:
                     tasks.append(result)
     finally:
-        out_file.close()
+        obj_pipeline.close_spider()
 
 
-def _write_jl(row, out_file):
-    json.dump(row, out_file)
-    out_file.write('\n')
+def print_progress(out_path, progress_mode, tasks):
+    """Выводит прогресс парсинга"""
+
+    if progress_mode == 'on' and out_path != 'stdout':
+        print(f'{len(tasks)} items left')
 
 
-def _write_csv(row, out_file):
-    writer = csv.DictWriter(out_file, fieldnames=row.keys())
-    if out_file.tell() == 0:
-        writer.writeheader()
-    writer.writerow(row)
+def get_pipeline(out_path, out_format, progress_mode):
+    """Factory функция для определения нужного пайплайна для обработки"""
 
+    if out_format == 'mongodb':
+        return MongoPipeline(out_path, out_format, progress_mode)
+    elif out_format == 'csv':
+        return CSVPipeline(out_path, out_format, progress_mode)
+    elif out_format == 'jl':
+        return JLPipeline(out_path, out_format, progress_mode)
