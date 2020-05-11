@@ -38,7 +38,11 @@ def parse(resp: requests.Response) -> Iterable:
 @timer
 @memoize
 def parse_player(resp: requests.Response) -> Iterable:
-    """Собирает информацию о каждом игроке"""
+    """
+    Собирает информацию о каждом игроке.
+    Мемоизация здесь нужна, чтобы при повторении одно и того же url
+    на стартовой странице, не собирать информацию по нему 2 раза
+    """
     sel = Selector(resp.text)
 
     name = sel.css('h1::text').get().strip()
