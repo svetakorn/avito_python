@@ -84,9 +84,3 @@ class MongoPipeline(AbstractPipeline):
     def process_item(self, item):
         self.db.rus_ultimate_players.insert_one(item)
 
-# + stdout csv - записать csv в stdout
-# + stdout jl - записать jl в stdout
-# + stdout mongodb - не разрешено, mongodb - приоритетно
-# + file csv - записать csv в файл
-# + file jl - записать jl в файд
-# + file mongodb - не разрешено, mongodb - приоритетно
