@@ -1,6 +1,8 @@
 import requests
 from parsel import Selector
 import re
+from scraper.decorators.decorators import timer, memoize
+from typing import Iterable, Dict
 
 BASE_URL = 'https://175g.ru'
 START_URL = BASE_URL + '/players/'
@@ -22,7 +24,8 @@ STAT_LABELS = ('tournaments',
                'tournaments organized')
 
 
-def parse(resp: requests.Response):
+@timer
+def parse(resp: requests.Response) -> Iterable:
     """Собирает ссылки на страницы игроков"""
     sel = Selector(resp.text)
 
@@ -32,7 +35,9 @@ def parse(resp: requests.Response):
     return tasks
 
 
-def parse_player(resp: requests.Response):
+@timer
+@memoize
+def parse_player(resp: requests.Response) -> Iterable:
     """Собирает информацию о каждом игроке"""
     sel = Selector(resp.text)
 
@@ -49,11 +54,11 @@ def parse_player(resp: requests.Response):
     player_stats = stats_to_dict(get_player_stats(sel))
 
     player = {**player_info, **player_stats}
-    # print(player)
     return [player]
 
 
-def get_player_stats(sel: Selector) -> list:
+@timer
+def get_player_stats(sel: Selector) -> Iterable:
     """Обрабатывает информацию об игроке"""
     raw_values = sel.xpath('//div[@class="player-stat-cell"]//text()') \
         .getall()
@@ -62,7 +67,8 @@ def get_player_stats(sel: Selector) -> list:
     return concat
 
 
-def stats_to_dict(stats: list) -> dict:
+@timer
+def stats_to_dict(stats: Iterable) -> Dict:
     """Создает словарь с данными каждого игрока"""
 
     stats_dict = dict.fromkeys(STAT_LABELS, '')
