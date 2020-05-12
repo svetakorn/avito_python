@@ -38,12 +38,12 @@ def print_progress(out_path: str, progress_mode: str, tasks: Sized) -> NoReturn:
         print(f'{len(tasks)} items left')
 
 
-def get_pipeline(out_path: str, out_format: str, progress_mode: str) -> 'AbstractPipeline':
+def get_pipeline(out_path: str, out_format: str, progress_mode: str) -> AbstractPipeline:
     """Factory функция для определения нужного пайплайна для обработки"""
 
-    if out_format == 'mongodb':
-        return MongoPipeline(out_path, out_format, progress_mode)
-    elif out_format == 'csv':
-        return CSVPipeline(out_path, out_format, progress_mode)
-    elif out_format == 'jl':
-        return JLPipeline(out_path, out_format, progress_mode)
+    format_pipeline = {
+        'mongodb': MongoPipeline,
+        'csv': CSVPipeline,
+        'jl': JLPipeline
+    }
+    return format_pipeline[out_format](out_path, out_format, progress_mode)

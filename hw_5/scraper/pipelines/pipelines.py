@@ -4,9 +4,10 @@ import sys
 from pymongo import MongoClient
 from scraper.decorators.decorators import timer
 from typing import Dict, NoReturn
+from abc import ABC, abstractmethod
 
 
-class AbstractPipeline:
+class AbstractPipeline(ABC):
 
     def __init__(self, out_path: str, out_format: str, progress_mode: str):
         self.out_path = out_path
@@ -14,24 +15,23 @@ class AbstractPipeline:
         self.progress_mode = progress_mode
         self.out_file = None
 
+    @abstractmethod
     def open_spider(self) -> NoReturn:
         """Метод класса для открытия файла/подключения к базе"""
         pass
 
+    @abstractmethod
     def close_spider(self) -> NoReturn:
         """Метод класса для закрытия файла/подключения"""
         pass
 
+    @abstractmethod
     def process_item(self, item) -> NoReturn:
         """Обрабатывает один объект парсинга"""
         pass
 
 
-class CSVPipeline(AbstractPipeline):
-
-    def __init__(self, out_path: str, out_format: str, progress_mode: str):
-        super().__init__(out_path, out_format, progress_mode)
-        self.writer = None
+class FilePipeline(AbstractPipeline):
 
     @timer
     def open_spider(self):
@@ -44,6 +44,17 @@ class CSVPipeline(AbstractPipeline):
     @timer
     def close_spider(self):
         self.out_file.close()
+
+    def process_item(self, item) -> NoReturn:
+        """Обрабатывает один объект парсинга"""
+        pass
+
+
+class CSVPipeline(FilePipeline):
+
+    def __init__(self, out_path: str, out_format: str, progress_mode: str):
+        super().__init__(out_path, out_format, progress_mode)
+        self.writer = None
 
     @timer
     def process_item(self, item: Dict):
@@ -55,22 +66,10 @@ class CSVPipeline(AbstractPipeline):
         self.writer.writerow(item)
 
 
-class JLPipeline(AbstractPipeline):
+class JLPipeline(FilePipeline):
 
     def __init__(self, out_path: str, out_format: str, progress_mode: str):
         super().__init__(out_path, out_format, progress_mode)
-
-    @timer
-    def open_spider(self):
-        if self.out_path == 'stdout':
-            self.out_file = sys.stdout
-            return
-
-        self.out_file = open(self.out_path + '.' + self.out_format, 'w', buffering=1)
-
-    @timer
-    def close_spider(self):
-        self.out_file.close()
 
     @timer
     def process_item(self, item: Dict):
@@ -96,4 +95,3 @@ class MongoPipeline(AbstractPipeline):
     @timer
     def process_item(self, item: Dict):
         self.db.rus_ultimate_players.insert_one(item)
-

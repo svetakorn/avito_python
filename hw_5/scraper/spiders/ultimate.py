@@ -80,6 +80,6 @@ def stats_to_dict(stats: Iterable) -> Dict:
     for k, v in METRICS.items():
         for st in stats:
             if v in st:
-                stats_dict[k] = re.findall('\d+', st)[0]
+                stats_dict[k] = re.findall('\\d+', st)[0]
 
     return stats_dict

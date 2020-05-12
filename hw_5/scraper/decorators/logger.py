@@ -1,6 +1,5 @@
-import time
-import datetime
 import os
+from scraper.utils.utils import get_current_time_formatted
 
 logs_folder = os.path.join(os.path.dirname(__file__), '../logs')
 
@@ -8,7 +7,7 @@ logs_folder = os.path.join(os.path.dirname(__file__), '../logs')
 class LogWriterPipeline:
     """Содержит пайплайн сохранения логов"""
     def __init__(self):
-        self.current_time_str = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+        self.current_time_str = get_current_time_formatted('%Y_%m_%d_%H_%M_%S')
         self.file = None
 
     def open_logs(self):

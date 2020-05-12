@@ -1,8 +1,8 @@
 import time
-import datetime
 import functools
 from typing import Callable
 from scraper.decorators.logger import logger
+from scraper.utils.utils import get_current_time_formatted
 
 
 def timer(func: Callable) -> Callable:
@@ -13,13 +13,9 @@ def timer(func: Callable) -> Callable:
         value = func(*args, **kwargs)
         end_time = time.perf_counter()
         run_time = end_time - start_time
-        logger.write_log(get_current_time(), func.__name__, '{0:.6f}'.format(run_time))
+        logger.write_log(get_current_time_formatted('%Y-%m-%d %H:%M:%S'), func.__name__, '{0:.6f}'.format(run_time))
         return value
     return wrapper_timer
-
-
-def get_current_time() -> str:
-    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 def memoize(func: Callable) -> Callable:
@@ -38,15 +34,3 @@ def memoize(func: Callable) -> Callable:
         cache[args] = result
         return result
     return memoized_func
-
-
-@memoize
-def sveta(num: int):
-    return num ^ 2
-
-
-a = sveta(3)
-b = sveta(3)
-c = sveta(4)
-
-

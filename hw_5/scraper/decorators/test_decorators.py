@@ -1,7 +1,7 @@
 from scraper.decorators.decorators import timer, memoize
 import unittest
 from unittest.mock import patch, ANY, MagicMock
-from scraper.test_utils import create_fake_timer
+from scraper.utils.test_utils import create_fake_timer
 
 
 class TestTimer(unittest.TestCase):
@@ -48,8 +48,3 @@ class TestMemoize(unittest.TestCase):
     def test_func_with_exception(self):
         with self.assertRaises(IndexError):
             memoize(lambda: [][0])()
-
-
-
-
-
