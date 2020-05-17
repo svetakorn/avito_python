@@ -1,5 +1,5 @@
 from colr import color
-from utils import sum_elements, get_sum_rgb, elem_func
+from utils import sum_elements, get_sum_rgb
 from functools import lru_cache
 
 
@@ -34,13 +34,13 @@ class Color:
     def __mul__(self, coef: float):
         cl = -256 * (1 - coef)
         f = 259 * (cl + 255) / (255 * (259 - cl))
-        changed_color = elem_func(lambda x: f * (x - 128) + 128, self.color)
+        changed_color = map(lambda x: f * (x - 128) + 128, self.color)
         return Color(*changed_color)
 
     def __rmul__(self, coef: float):
         cl = -256 * (1 - coef)
         f = 259 * (cl + 255) / (255 * (259 - cl))
-        changed_color = elem_func(lambda x: f * (x - 128) + 128, self.color)
+        changed_color = map(lambda x: f * (x - 128) + 128, self.color)
         return Color(*changed_color)
 
 
